@@ -1,0 +1,122 @@
+ЗАДАНИЕ 1
+kb@fff:~/Рабочий стол$ cd /home/kb/os_lab_2019/lab2
+kb@fff:~/os_lab_2019/lab2$ ls
+src  text
+kb@fff:~/os_lab_2019/lab2$ cd /home/kb/os_lab_2019/lab2/src
+kb@fff:~/os_lab_2019/lab2/src$ ls
+revert_string  swap  tests
+kb@fff:~/os_lab_2019/lab2/src$ cd /home/kb/os_lab_2019/lab2/src/swap
+kb@fff:~/os_lab_2019/lab2/src/swap$ ls
+a.out  main.c  newfile.txt  swap.c  swap.h
+kb@fff:~/os_lab_2019/lab2/src/swap$ nano -l swap.c
+kb@fff:~/os_lab_2019/lab2/src/swap$ rm swap.c
+kb@fff:~/os_lab_2019/lab2/src/swap$ mv swap1.c swap.c
+kb@fff:~/os_lab_2019/lab2/src/swap$ cc main.c swap.c
+kb@fff:~/os_lab_2019/lab2/src/swap$ ./a.out
+b a
+
+ЗАДАНИЕ 2
+kb@fff:~/os_lab_2019/lab2/src/swap$ cd ../
+kb@fff:~/os_lab_2019/lab2/src$ cd revert_string
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+main.c  revert_string.c  revert_string.h
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ nano -l revert_string.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+main.c  revert_string1.c  revert_string.c  revert_string.h
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ rm revert_string.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ mv revert_string1.c revert_string.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ chmod 746 revert_string.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+main.c  revert_string.c  revert_string.h
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c main.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c revert_string.c
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc main.o revert_string.o -o str
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+a.out  main.c  main.o  revert_string.c  revert_string.h  revert_string.o  str
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ./str qwertyuiop
+Reverted: poiuytrewq
+
+ЗАДАНИЕ 3
+kb@fff:~/Рабочий стол$ cd /home/kb/os_lab_2019/lab2
+kb@fff:~/os_lab_2019/lab2$ cd src
+kb@fff:~/os_lab_2019/lab2/src$ ls
+revert_string  swap  tests
+kb@fff:~/os_lab_2019/lab2/src$ cd revert_string
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+a.out  main.c  main.o  revert_string.c  revert_string.h  revert_string.o  str
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c ../revert_string/main.c -o main_static.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c -fPIC ../revert_string/main.c -o main_shared.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c -fPIC ../revert_string/revert_string.c -o revert_string_shared.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -c ../revert_string/revert_string.c -o revert_string_static.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+a.out   main.o         main_static.o    revert_string.h  revert_string_shared.o  str
+main.c  main_shared.o  revert_string.c  revert_string.o  revert_string_static.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ rm main.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ar rsc lib_static.a revert_string_static.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+a.out         main_shared.o    revert_string.h         revert_string_static.o
+lib_static.a  main_static.o    revert_string.o         str
+main.c        revert_string.c  revert_string_shared.o
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc main_static.o -L$(pwd) -l_static -o statically-linked
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -shared revert_string_shared.o -o lib_shared.so
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc main_static.o -L$(pwd) -l_shared -o use-shared-library
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+lib_shared.so  main_static.o    revert_string_shared.o  use-shared-library
+lib_static.a   revert_string.c  revert_string_static.o
+main.c         revert_string.h  statically-linked
+main_shared.o  revert_string.o  str
+
+ЗАДАНИЕ 4
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ sudo apt -y install libcunit1 libcunit1-doc libcunit1-dev
+[sudo] пароль для kb: 
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+НОВЫЕ пакеты, которые будут установлены:
+  libcunit1 libcunit1-dev libcunit1-doc
+Обновлено 0 пакетов, установлено 3 новых пакетов, для удаления отмечено 0 пакетов, и 541 пакетов не обновлено.
+Необходимо скачать 183 kB архивов.
+После данной операции, объём занятого дискового пространства возрастёт на 653 kB.
+Пол:1 http://ru.archive.ubuntu.com/ubuntu bionic/universe amd64 libcunit1 amd64 2.1-3-dfsg-2 [26,9 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu bionic/universe amd64 libcunit1-dev amd64 2.1-3-dfsg-2 [54,5 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu bionic/universe amd64 libcunit1-doc all 2.1-3-dfsg-2 [101 kB]
+Получено 183 kB за 0с (522 kB/s)   
+Выбор ранее не выбранного пакета libcunit1:amd64.
+(Чтение базы данных … на данный момент установлено 150992 файла и каталога.)
+Подготовка к распаковке …/libcunit1_2.1-3-dfsg-2_amd64.deb …
+Распаковывается libcunit1:amd64 (2.1-3-dfsg-2) …
+Выбор ранее не выбранного пакета libcunit1-dev.
+Подготовка к распаковке …/libcunit1-dev_2.1-3-dfsg-2_amd64.deb …
+Распаковывается libcunit1-dev (2.1-3-dfsg-2) …
+Выбор ранее не выбранного пакета libcunit1-doc.
+Подготовка к распаковке …/libcunit1-doc_2.1-3-dfsg-2_all.deb …
+Распаковывается libcunit1-doc (2.1-3-dfsg-2) …
+Настраивается пакет libcunit1:amd64 (2.1-3-dfsg-2) …
+Обрабатываются триггеры для libc-bin (2.27-3ubuntu1) …
+Обрабатываются триггеры для doc-base (0.10.8) …
+Обработка 34 изменённых файла doc-base, 1 добавленный файл doc-base...
+Настраивается пакет libcunit1-dev (2.1-3-dfsg-2) …
+Настраивается пакет libcunit1-doc (2.1-3-dfsg-2) …
+Обрабатываются триггеры для man-db (2.8.3-2) …
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ pwd
+/home/kb/os_lab_2019/lab2/src/revert_string
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+libRevertD.so  main_shared.o    revert_string.o         str
+lib_shared.so  main_static.o    revert_string_shared.o  use-shared-library
+lib_static.a   revert_string.c  revert_string_static.o
+main.c         revert_string.h  statically-linked
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ cd ../
+kb@fff:~/os_lab_2019/lab2/src$ cd ../
+kb@fff:~/os_lab_2019/lab2/src$ ls
+revert_string  swap  tests
+kb@fff:~/os_lab_2019/lab2/src$ cd tests 
+kb@fff:~/os_lab_2019/lab2/src/tests$ cp /home/kb/os_lab_2019/lab2/src/tests/tests.c /home/kb/os_lab_2019/lab2/src/revert_string
+kb@fff:~/os_lab_2019/lab2/src/tests$ cd /home/kb/os_lab_2019/lab2/src/revert_string
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ ls
+libRevertD.so  main_shared.o    revert_string.o         str
+lib_shared.so  main_static.o    revert_string_shared.o  tests.c
+lib_static.a   revert_string.c  revert_string_static.o  use-shared-library
+main.c         revert_string.h  statically-linked
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc -shared revert_string.o -o libRevertD.so
+kb@fff:~/os_lab_2019/lab2/src/revert_string$ gcc tests.c -L$(pwd) -lRevertD -o revertTests -lcunit
+
